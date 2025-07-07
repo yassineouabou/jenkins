@@ -14,8 +14,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker version'
-                sh 'docker build -t yassineouabou/my-springboot-app:latest .'
+                script {
+                    def appImage = docker.build("${DOCKER_IMAGE}:latest")
+                }
             }
         }
     }
