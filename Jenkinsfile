@@ -11,6 +11,17 @@ pipeline {
                 git 'https://github.com/yassineouabou/jenkins.git'
             }
         }
+        stage("Test"){
+            steps{
+                sh 'mvn clean test'
+            }
+        }
+
+        stage("Build"){
+                    steps{
+                        sh 'mvn clean build'
+                    }
+                }
 
         stage('Build Docker Image') {
             steps {
