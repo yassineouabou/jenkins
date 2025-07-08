@@ -33,7 +33,7 @@ pipeline {
 
         stage('Build Docker Image') {
             when {
-                branch 'prod'
+                branch 'master'
             }
             steps {
                 sh "docker build -t ${DOCKER_IMAGE}:prod ."
@@ -42,7 +42,7 @@ pipeline {
 
         stage('Push Docker Image') {
             when {
-                branch 'prod'
+                branch 'master'
             }
             steps {
                 withCredentials([usernamePassword(
