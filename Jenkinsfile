@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "yassineouabou/my-springboot-app"
+        DOCKER_IMAGE = "ouabou2003/my-springboot-app"
         DOCKERHUB_CREDENTIALS_ID = "ouabou-dockerhub"
     }
 
