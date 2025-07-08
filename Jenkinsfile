@@ -4,13 +4,13 @@ pipeline {
     environment {
         DOCKER_IMAGE = "ouabou2003/my-springboot-app"
         DOCKERHUB_CREDENTIALS_ID = "ouabou-dockerhub"
-        BRANCH_NAME = "${env.BRANCH_NAME}"
+
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${BRANCH_NAME}", url: 'https://github.com/yassineouabou/jenkins.git'
+                git url: 'https://github.com/yassineouabou/jenkins.git'
             }
         }
 
