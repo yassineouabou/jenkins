@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Afficher la branche') {
             steps {
-                echo "Branche actuelle : ${env.BRANCH_NAME}"
+                sh 'echo "Branche Git actuelle : $(git rev-parse --abbrev-ref HEAD)"'
             }
         }
 
