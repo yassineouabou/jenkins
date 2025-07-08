@@ -13,6 +13,11 @@ pipeline {
                 git url: 'https://github.com/yassineouabou/jenkins.git'
             }
         }
+        stage('Afficher la branche') {
+            steps {
+                echo "Branche actuelle : ${env.BRANCH_NAME}"
+            }
+        }
 
         stage('Test') {
             steps {
