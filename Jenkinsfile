@@ -32,14 +32,18 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-
+            when {
+                branch 'master'
+            }
             steps {
                 sh "docker build -t ${DOCKER_IMAGE}:prod ."
             }
         }
 
         stage('Push Docker Image') {
-
+            when {
+                branch 'master'
+            }
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: "${DOCKERHUB_CREDENTIALS_ID}",
