@@ -11,6 +11,6 @@ public class TestController {
 
     @GetMapping
     public ResponseEntity<String> test(){
-        return ResponseEntity.ok("This is a Docker test new");
+        return ResponseEntity.ok("This is a Docker test.");
     }
 }
