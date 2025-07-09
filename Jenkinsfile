@@ -58,6 +58,7 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
+                sh 'kubectl config view'
                 sh 'kubectl apply -f deploymentService.yaml'
             }
         }
