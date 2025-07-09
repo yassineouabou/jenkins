@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "ouabou2003/my-springboot-app"
         DOCKERHUB_CREDENTIALS_ID = "ouabou-dockerhub"
+        KUBECONFIG_CREDENTIALS_ID = 'mon-kubconfig'
 
     }
 
@@ -53,6 +54,11 @@ pipeline {
                     sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                     sh "docker push ${DOCKER_IMAGE}:v1"
                 }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f deploymentService.yaml'
             }
         }
     }
