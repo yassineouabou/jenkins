@@ -14,11 +14,7 @@ pipeline {
                 git url: 'https://github.com/yassineouabou/jenkins.git'
             }
         }
-        stage('Afficher la branche') {
-            steps {
-                sh 'echo "Branche Git actuelle : $(git rev-parse --abbrev-ref HEAD)"'
-            }
-        }
+
 
         stage('Test') {
             steps {
@@ -56,6 +52,23 @@ pipeline {
                 }
             }
         }
+
+        stages {
+            stage('Setup kubectl') {
+              steps {
+                withCredentials([string(credentialsId: 'k8s-jenkins-token', variable: 'TOKEN')]) {
+                  sh '''
+                    mkdir -p ~/.kube
+                    kubectl config set-cluster my-cluster --server=https://host.docker.internal:64239 --insecure-skip-tls-verify=true
+                    kubectl config set-credentials jenkins-sa --token=$TOKEN
+                    kubectl config set-context jenkins-context --cluster=my-cluster --user=jenkins-sa
+                    kubectl config use-context jenkins-context
+                  '''
+                }
+              }
+            }
+
+
         stage('Deploy to Kubernetes') {
             steps {
                 sh 'kubectl config view'
