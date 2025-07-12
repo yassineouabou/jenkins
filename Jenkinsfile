@@ -51,23 +51,6 @@ pipeline {
             }
         }
 
-        stage('Setup kubectl') {
-            when {
-                branch 'master'
-            }
-            steps {
-                withCredentials([string(credentialsId: 'k8s-jenkins-token', variable: 'TOKEN')]) {
-                    sh '''
-                        mkdir -p ~/.kube
-                        kubectl config set-cluster my-cluster --server=https://host.docker.internal:64239 --insecure-skip-tls-verify=true
-                        kubectl config set-credentials jenkins-sa --token=$TOKEN
-                        kubectl config set-context jenkins-context --cluster=my-cluster --user=jenkins-sa
-                        kubectl config use-context jenkins-context
-                    '''
-                }
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             when {
                 branch 'master'
