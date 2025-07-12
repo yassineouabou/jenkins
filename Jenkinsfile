@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "ouabou2003/my-springboot-app"
         DOCKERHUB_CREDENTIALS_ID = "ouabou-dockerhub"
-        KUBECONFIG = "${env.WORKSPACE}/.kube/config"
+        KUBECONFIG = "/root/.kube/config"
     }
 
     stages {
