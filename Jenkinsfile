@@ -14,12 +14,6 @@ pipeline {
             }
         }
 
-        stage('Afficher la branche') {
-            steps {
-                sh 'echo "Branche Git actuelle : $(git rev-parse --abbrev-ref HEAD)"'
-            }
-        }
-
         stage('Test') {
             steps {
                 sh 'mvn clean test'
@@ -37,7 +31,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh "docker build -t ${DOCKER_IMAGE}:v1 ."
+                sh "docker build -t ${DOCKER_IMAGE}:v2 ."
             }
         }
 
@@ -52,12 +46,15 @@ pipeline {
                     passwordVariable: 'DOCKER_PASSWORD'
                 )]) {
                     sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                    sh "docker push ${DOCKER_IMAGE}:v1"
+                    sh "docker push ${DOCKER_IMAGE}:v2"
                 }
             }
         }
 
         stage('Setup kubectl') {
+            when {
+                branch 'master'
+            }
             steps {
                 withCredentials([string(credentialsId: 'k8s-jenkins-token', variable: 'TOKEN')]) {
                     sh '''
@@ -72,6 +69,9 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
+            when {
+                branch 'master'
+            }
             steps {
                 sh 'kubectl config view'
                 sh 'kubectl apply -f deploymentService.yaml'
